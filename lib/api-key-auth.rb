@@ -5,6 +5,7 @@ module ApiKeys
   module ActiveRecord
     module ClassMethods
       def self.extended(base)
+        self.check_for_appropriate_configurations
         base.belongs_to Rails.application.config.api_key_owner_model
         base.api_key_owner_class.send :has_many, :api_keys, :readonly => true, :foreign_key => :owner_id
       end
@@ -38,11 +39,17 @@ module ApiKeys
       end
     
       def secret
-        Rails.application.config.secret
+        Rails.application.config.api_key_secret
       end
     
       def hex_digest(str)
         Digest::SHA256.hexdigest(str)
+      end
+
+    private
+      def self.check_for_appropriate_configurations
+        raise "must define api_key_owner_model" unless Rails.application.config.respond_to? :api_key_owner_model
+        raise "must define secret" unless Rails.application.config.respond_to? :api_key_secret
       end
     end
 

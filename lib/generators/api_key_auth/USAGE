@@ -1,0 +1,10 @@
+Description:
+    Generates a migration & initializer for api-key-auth. This will allow your controllers to use api_key_required, etc.
+
+Example:
+    rails generate api_key_auth init
+
+    This will:
+      create  config/initializers/api-key-initializer.rb
+      create  db/migrate/create_api_keys.rb
+        

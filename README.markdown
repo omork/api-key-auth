@@ -16,3 +16,10 @@ The below example shows how to use api-key-auth in your controller:
         @user = owner_of_api_key
       end
     end
+
+
+todo
+====
+
+1. add rdocs
+2. include tests with gem

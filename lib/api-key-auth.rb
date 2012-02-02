@@ -59,20 +59,12 @@ module ApiKeys
   module ActionController
     module ClassMethods ; end
     module InstanceMethods
-      def check_key
-        return true if ApiKey.valid_key?(api_key_for_request)
-      end
-
       def api_key_for_request
         key = params[:api_key] || request.env["HTTP_API_KEY"]
       end
 
       def api_key_required
-        if api_key_for_request.blank?
-          head(404)
-          return false
-        end
-        true
+        head(403) if api_key_for_request.blank? || ApiKey.valid_key?(api_key_for_request).nil?
       end
 
       def owner_of_api_key
